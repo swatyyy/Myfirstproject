@@ -1,0 +1,64 @@
+***GIT ACTIONS AND YAML CONFIGURATION***
+
+To create a Git Actions YAML file for a Selenium test automation suite, you can follow the below steps (These are very basic steps for simple configurations)
+
+1. Create a repository on GitHub where you will store your test code and configuration files. In the root directory of your repository, create a new YAML file named 'test.yml'. This file name defines the workflow that Git Actions will use.
+
+2. Add the following snippet to the test.yml file:
+
+------------------------------------------
+on:
+push:
+branches: [ main ]
+pull_request:
+branches: [ main ]
+
+jobs:
+test:
+runs-on: ubuntu-latest
+
+steps:
+- uses: actions/checkout@v2
+
+- name: Set up Python
+uses: actions/setup-python@v2
+with:
+python-version: 3.x
+
+- name: Install dependencies
+run: |
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+
+- name: Run Selenium tests
+run: pytest tests/
+
+------------------------------------------
+NOTES:
+
+name: The name of your workflow.
+
+on: The events that will trigger the workflow. In this case, we want to trigger the workflow on every push and pull request to the main branch.
+
+jobs: The set of jobs that will run in the workflow. We have defined only one job here.
+
+test: The name of our job.
+
+runs-on: The operating system that will run the job. In this case, we are using the latest version of Ubuntu.
+
+steps: The set of steps that will run in the job.
+
+uses: This step checks out the repository to the runner.
+
+name: This step sets up the Python version to use in the workflow.
+
+run: This step installs the dependencies from the requirements.txt file.
+
+run(last): This step runs the Selenium tests using pytest.
+
+Save and commit the test.yml file to the repository.
+This YAML file will configure Git Actions to automatically run the Selenium tests on every push and pull request to the main branch. The requirements.txt file should contain all the necessary dependencies for your Selenium test.
+
+(I just started learning git actions with python as my primary coding language. I shared what I learnt today, any suggestions or improvements are welcome.)
+
+#automation #github #python #qa #testing
